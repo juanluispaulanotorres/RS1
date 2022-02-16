@@ -49,6 +49,22 @@ public class Controlador {
         }
     }
 
+    // Consulta por id
+    @GetMapping("/persona/{id}")
+    public void consultaId(@PathVariable int id) {
+
+        if (id <= 0 || id >= lista.size()) {
+            System.out.println("La persona que busca no existe");
+
+        } else {
+            for (PersonaService persona:lista) {
+                if (id == lista.indexOf(persona)) {
+                    System.out.println(persona);
+                }
+            }
+        }
+    }
+
     // Consulta por nombre
     @GetMapping("/persona/nombre/{nombre}")
     public void consultaNombre(@PathVariable String nombre) {
