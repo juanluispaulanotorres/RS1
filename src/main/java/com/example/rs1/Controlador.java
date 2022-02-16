@@ -1,12 +1,8 @@
 package com.example.rs1;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.processing.SupportedSourceVersion;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 public class Controlador {
@@ -31,25 +27,25 @@ public class Controlador {
         System.out.println("Listado actual: ");
 
         lista.stream().forEach(System.out::println);
-        //System.out.println(lista + "\n");
     }
 
     // Modificación
     @PutMapping("/persona/{id}")
     public void modificaPersona(@PathVariable int id, @RequestBody Persona p) {
 
-        //Autoincrementable (para el id)
-        //final AtomicInteger contador = new AtomicInteger();
-
-        if (id == 0) {
+        if (id <= 0 || id >= lista.size()) {
             System.out.println("La persona que busca no existe");
 
         } else {
-            PersonaService persona = new PersonaServiceImpl();
-
-            persona.setNombre(persona.getNombre());
-            persona.setPoblacion(persona.getPoblacion());
-            persona.setEdad(p.getEdad());
+            // Si el id coincide con el índice de la lista, modifico los datos de la persona que ocupe esa posición
+            for (PersonaService persona:lista) {
+                if (id == lista.indexOf(persona)) {
+                    persona.setNombre(p.getNombre());
+                    persona.setPoblacion(p.getPoblacion());
+                    persona.setEdad(p.getEdad());
+                }
+            }
+            lista.stream().forEach(System.out::println);
         }
     }
 
